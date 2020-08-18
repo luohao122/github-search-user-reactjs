@@ -1,7 +1,8 @@
-import { FETCH_USERS, SHOW_LOADER, HIDE_LOADER } from "./types";
+import { FETCH_USERS, REMOVE_USERS, SHOW_LOADER, HIDE_LOADER } from "./types";
 
 export const fetchUsers = (query) => {
   return async (dispatch) => {
+    dispatch({ type: SHOW_LOADER });
     const response = await fetch(
       `https://api.github.com/search/users?q=${query}&per_page=100`,
       {
@@ -9,14 +10,11 @@ export const fetchUsers = (query) => {
       }
     );
     const responseData = await response.json();
+    dispatch({ type: HIDE_LOADER });
     dispatch({ type: FETCH_USERS, payload: responseData.items });
   };
 };
 
-export const showLoader = () => {
-  return { type: SHOW_LOADER };
-};
-
-export const hideLoader = () => {
-  return { type: HIDE_LOADER };
+export const removeUsers = () => {
+  return { type: REMOVE_USERS };
 };

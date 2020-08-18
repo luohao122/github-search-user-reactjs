@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { fetchUsers } from "../actions";
+import { fetchUsers, removeUsers } from "../actions";
 import UserList from "./UserList";
+import Spinner from "./Spinner";
 
 class App extends React.Component {
   state = { query: "" };
@@ -10,12 +11,22 @@ class App extends React.Component {
   onInputChange = (event) => {
     // Use setState function form to prevent asynchronous
     this.setState({ query: event.target.value }, () => {
-      // Enforced at least 3 characters were entered
-      if (this.state.query.length < 3) {
+      // Clear users list
+      if (this.state.query.length < 3 || this.state.query.length <= 0) {
+        this.props.removeUsers();
         return;
       }
+      // Fetch users list when more than 3 characters were entered
       this.props.fetchUsers(this.state.query);
     });
+  };
+
+  renderUserList = () => {
+    if (this.props.isLoading) {
+      return <Spinner />;
+    } else {
+      return <UserList users={this.props.users} />;
+    }
   };
 
   render() {
@@ -35,16 +46,17 @@ class App extends React.Component {
             </div>
           </div>
         </div>
-        <UserList users={this.props.users} />
+        {this.renderUserList()}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { users: state.users.users };
+  return { users: state.users.users, isLoading: state.users.isLoading };
 };
 
 export default connect(mapStateToProps, {
   fetchUsers,
+  removeUsers,
 })(App);
