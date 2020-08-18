@@ -1,4 +1,4 @@
-import { FETCH_USERS } from "./types";
+import { FETCH_USERS, SHOW_LOADER, HIDE_LOADER } from "./types";
 
 export const fetchUsers = (query) => {
   return async (dispatch) => {
@@ -8,7 +8,15 @@ export const fetchUsers = (query) => {
         method: "GET",
       }
     );
-    const responseData = response.json();
-    dispatch({ type: FETCH_USERS, payload: responseData });
+    const responseData = await response.json();
+    dispatch({ type: FETCH_USERS, payload: responseData.items });
   };
+};
+
+export const showLoader = () => {
+  return { type: SHOW_LOADER };
+};
+
+export const hideLoader = () => {
+  return { type: HIDE_LOADER };
 };

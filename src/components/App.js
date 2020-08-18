@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { fetchUsers } from "../actions";
+import UserList from "./UserList";
 
 class App extends React.Component {
   state = { query: "" };
@@ -34,14 +35,14 @@ class App extends React.Component {
             </div>
           </div>
         </div>
-        {/* Create renderUsers method, add progress indicator */}
+        <UserList users={this.props.users} />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { users: state.users };
+  return { users: state.users.users };
 };
 
 export default connect(mapStateToProps, {
