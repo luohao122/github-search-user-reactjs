@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import UserItem from "./UserItem";
+import UserItem from "../UserItem/UserItem";
 
 const UserList = (props) => {
   const renderUserItem = () => {

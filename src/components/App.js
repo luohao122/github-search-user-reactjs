@@ -3,8 +3,8 @@ import _ from "lodash";
 import { connect } from "react-redux";
 
 import { fetchUsers, removeUsers } from "../actions";
-import UserList from "./UserList";
-import Spinner from "./Spinner";
+import UserList from "./UserList/UserList";
+import Spinner from "./Spinner/Spinner";
 
 class App extends React.Component {
   state = { query: "" };
