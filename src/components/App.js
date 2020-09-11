@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import { connect } from "react-redux";
 
 import { fetchUsers, removeUsers } from "../actions";
@@ -17,7 +18,11 @@ class App extends React.Component {
         return;
       }
       // Fetch users list when more than 3 characters were entered
-      this.props.fetchUsers(this.state.query);
+      // Non debounce version
+      // this.props.fetchUsers(this.state.query);
+
+      // Debounce version
+      this.fetchAllUsers();
     });
   };
 
@@ -28,6 +33,10 @@ class App extends React.Component {
       return <UserList users={this.props.users} />;
     }
   };
+
+  fetchAllUsers = _.debounce(() => {
+    this.props.fetchUsers(this.state.query);
+  }, 600);
 
   render() {
     return (
